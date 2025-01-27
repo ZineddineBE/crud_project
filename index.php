@@ -9,7 +9,7 @@
 
     if (isset($_GET["search"])) {
         $search_term = $connection->real_escape_string($_GET["search"]);
-        $sql .= " WHERE firstname LIKE '$search_term%' OR name LIKE '$search_term%'";
+        $sql .= " WHERE firstname LIKE '$search_term%' OR name LIKE '$search_term%' OR ";
     }
 
     $result = $connection->query($sql);
@@ -42,25 +42,31 @@
 
 </head>
 <body>
-    <h1>CRUD Project - Zineddine BEOUCHE</h1>
+    <h1 class="ps-2">CRUD Project - Zineddine BEOUCHE</h1>
     <div class="container my-5">
         <h2>List of Clients</h2>
-        <div class="d-flex justify-content-end">
-            <a href="create.php" class="btn btn-primary my-3" role="button">
-                <i class="fa-solid fa-plus pe-2"></i>New Client
-            </a>
+
+        <div class="container mt-3 mb-2">
+            <div class="row justify-content-between">
+
+                <form action="" method="get" class="col-auto">
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text">🔍</span>
+                        <input type="text" class="form-control w-50" name="search" id="search" placeholder="Search client by firstname or name" value="<?php echo htmlspecialchars($search_term); ?>" aria-label="Search"aria-describedby="addon-wrapping">
+                        <a href="index.php" class="btn btn-outline-danger">Reset</a>
+                    </div>
+                </form>
+
+                <div class="col-auto">
+                    <a href="create.php" class="btn btn-primary" role="button">
+                        <i class="fa-solid fa-plus pe-2"></i>New Client
+                    </a>
+                </div>
+
+            </div>
         </div>
 
         
-
-
-        <form action="" method="get" class="mb-3">
-            <div class="input-group flex-nowrap">
-                <span class="input-group-text">🔍</span>
-                <input type="text" class="form-control w-50" name="search" id="search" placeholder="Search client by firstname or name" value="<?php echo htmlspecialchars($search_term); ?>" aria-label="Search"aria-describedby="addon-wrapping">
-                <a href="index.php" class="btn btn-outline-danger">Reset</a>
-            </div>
-        </form>
 
         <table class="table table-striped">
             <thead>

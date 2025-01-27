@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errorMessage = "All the fields are required !";
             break;
         }
+        
         //add a new client to the database
 
         $sql = "INSERT INTO clients (firstname, name, email, phone, address) " .
