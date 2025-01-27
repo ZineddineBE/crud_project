@@ -1,5 +1,23 @@
 <?php
     include("db_connection.php");
+
+    //read all rows from database table
+    $sql = "SELECT * FROM clients";
+
+    // Check if a search term is defined
+    $search_term = "";
+
+    if (isset($_GET["search"])) {
+        $search_term = $connection->real_escape_string($_GET["search"]);
+        $sql .= " WHERE firstname LIKE '$search_term%' OR name LIKE '$search_term%'";
+    }
+
+    $result = $connection->query($sql);
+
+    if (!$result) {
+        die("Invalid query: " . $connection->error);
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +51,17 @@
             </a>
         </div>
 
+        
+
+
+        <form action="" method="get" class="mb-3">
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text">🔍</span>
+                <input type="text" class="form-control w-50" name="search" id="search" placeholder="Search client by firstname or name" value="<?php echo htmlspecialchars($search_term); ?>" aria-label="Search"aria-describedby="addon-wrapping">
+                <a href="index.php" class="btn btn-outline-danger">Reset</a>
+            </div>
+        </form>
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -47,15 +76,6 @@
             </thead>
             <tbody>
                 <?php
-
-                //read all rows from database table
-
-                $sql = "SELECT * FROM clients";
-                $result = $connection->query($sql);
-
-                if (!$result) {
-                    die("Invalid query: " . $connection->error);
-                }
 
                 //read data of each row
                 while($row = $result->fetch_assoc()) {
